@@ -49,8 +49,29 @@ void robot_detener()
 
 }
 
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+void giro_propio_eje(int velocidad, char direccion)
+{
+  /*
+   * Autor:        David Fierro
+   * Descripcion:  Funcion que hace girar el robot en su propio eje
+   * Parametros:   velocidad: Velocidad del robot (0 - 100)
+   *               direccion: Caracter que indica hacia donde se quiere girar (L o R)
+   * Retorno:      void
+   */
 
+  int v_izq = map(velocidad, 0, 100, 0, 255);
+  int v_der = v_izq;
+
+  if(direccion == 'L')
+    v_izq*=-1;
+  else
+    v_der*=-1;
+  
+  xmotion.MotorControl(v_izq, v_der);
+   
+}
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 static bool girando = false;
 void seguir_objeto(int velocidad)
 {
@@ -69,38 +90,37 @@ void seguir_objeto(int velocidad)
 
   if(obj_cnt)
   {
+    // Se detecto un objeto en el sensor central, detener robot
     girando = false;
     robot_detener();
   }
   else if (obj_izq && !obj_cnt)
   {
+    // El objeto esta cargado a la izquierda, girar para centrarlo
     girando = true;
-    xmotion.Left0(velocidad, 1);
+    giro_propio_eje(velocidad, 'R');
   }
   else if (obj_der && !obj_cnt)
   {
+    // El objeto esta cargado a la derecha, girar para centrarlo
     girando = true;
-    xmotion.Right0(velocidad, 1);
+    giro_propio_eje(velocidad, 'L');
   }
   else if (!girando)
   {
+    // No se detecto objeto alguno y la orden de giro no se ha dado
+    // Se define un sentido de giro aleatorio
     if(random(0,2) == 1)
     {
       girando = true;
-      xmotion.Right0(velocidad, 1);
+      giro_propio_eje(velocidad, 'R');
     }
     else
     {
       girando = true;
-      xmotion.Left0(velocidad, 1);   
+      giro_propio_eje(velocidad, 'L');
     }
          
   }
-  
-  
-    
-
-
-   
 
 }
