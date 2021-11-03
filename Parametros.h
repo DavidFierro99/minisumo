@@ -5,12 +5,14 @@
  *                 seccion de parametros estará definida en el archivo
 */
 
-
+#define UMBRAL_SENSOR_LINEA 200
 
 #define DP1 5
 #define DP2 6 
 #define DPS 7 
 
-// Valores de porcentaje de valocidad de los motores para ir en linea recta hacia adelante
-#define LM_FWD_VAL 100
-#define RM_FWD_VAL 100
+// Factor de correccion para hacer que el robot vaya en linea recta. Aumentar si el robot gira a la derecha
+#define FC_FWD 1.65
+
+// Factor de correccion para hacer que el robot vaya en linea recta. Aumentar si el robot gira a la derecha
+#define FC_BWD 1.5

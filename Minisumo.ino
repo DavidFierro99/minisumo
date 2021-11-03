@@ -3,12 +3,13 @@
  *   Descripcion: Codigo Minisumo materia microrobotica
 */
 
-#include <xmotion.h>
-#include "Parametros.h"
+#include "parametros.h"
+#include "robot_utils.h"
 
 
 void setup() {
-  xmotion.StopMotors(100); // Detener motores
+  // Detener motores
+  robot_detener();
   
   // Iniciar monitor serial
   Serial.begin(9600);
@@ -27,20 +28,6 @@ void setup() {
   digitalWrite(DP2, HIGH);
   digitalWrite(DPS, HIGH);
 
-}
-
-
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-void marcha_adelante(int tiempo)
-{
-  /*
-   * Autor:        David Fierro
-   * Parametros:   tiempo: int que indica el tiempo por el que se va a correr el robot
-   * Retorno:      void
-   */
-
-  xmotion.Right0(RM_FWD_VAL, tiempo);
-   
 }
 
 
@@ -77,9 +64,7 @@ void prueba_sensores()
   Serial.print("         ");
   Serial.print("D2: ");
   Serial.print(digitalRead(2));
-  Serial.print("         ");
-  Serial.print("D4: ");
-  Serial.println(digitalRead(4));
+  Serial.println("");
 
   // Delay entre lecturas para estabilidad
   delay(1000);       
@@ -87,16 +72,43 @@ void prueba_sensores()
 
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+boolean validacion_linea()
+{
+  /*
+   * Autor:       David Fierro
+   * Descripcion: Prueba de sensores de proximidad y de linea 
+   *              analogRead(A1): Sensor izquierdo
+   *              analogRead(A2): Sensor central
+   *              analogRead(A4): Sensor derecho
+   * Parametros:  void
+   * Retorno:     void
+   */
+  
+  return (analogRead(A1) < UMBRAL_SENSOR_LINEA || analogRead(A2) < UMBRAL_SENSOR_LINEA || analogRead(A4) < UMBRAL_SENSOR_LINEA);
+}
+
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 void loop() {
- 
 
- /* while (digitalRead(PIN_START) == 0) // Button push is waited. When Button is pushed, it gives 1 value.
+  while (digitalRead(DPS) == 0) 
   { 
-    Serial.print(digitalRead(PIN_START));
-    xmotion.UserLed2(100); //Blink User Led 2 100millisecond Intervals.
-  }*/
+    // Detener motores
+    robot_detener();
+    delay(3000);
+  }
+  
+  if (validacion_linea())
+  {
+    marcha_atras(100);
+    delay(500);
+  }
+  else
+  {
+    
+  }
+    
 
-  prueba_sensores();
-  delay(100);
+  delay(1);
   
 }
