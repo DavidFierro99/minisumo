@@ -56,14 +56,14 @@ void prueba_sensores()
   Serial.print("A4: ");
   Serial.println(sensorA4);
   Serial.println("Entradas digitales");
-  Serial.print("D0: ");
-  Serial.print(digitalRead(0));
+  Serial.print("SENSOR_DST_IZQ: ");
+  Serial.print(digitalRead(SENSOR_DST_IZQ));
   Serial.print("         ");
-  Serial.print("D1: ");
-  Serial.print(digitalRead(1));
+  Serial.print("SENSOR_DST_CNT: ");
+  Serial.print(digitalRead(SENSOR_DST_CNT));
   Serial.print("         ");
-  Serial.print("D2: ");
-  Serial.print(digitalRead(2));
+  Serial.print("SENSOR_DST_DER: ");
+  Serial.print(digitalRead(SENSOR_DST_DER));
   Serial.println("");
 
   // Delay entre lecturas para estabilidad
@@ -72,7 +72,7 @@ void prueba_sensores()
 
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-boolean validacion_linea()
+boolean validar_linea()
 {
   /*
    * Autor:       David Fierro
@@ -98,13 +98,15 @@ void loop() {
     delay(3000);
   }
   
-  if (validacion_linea())
+  if (validar_linea())
   {
     marcha_atras(100);
     delay(500);
   }
   else
   {
+    // Introducir aqui codigo que se desea ejecutar
+    seguir_objeto(50);
     
   }
     

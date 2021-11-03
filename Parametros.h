@@ -7,6 +7,12 @@
 
 #define UMBRAL_SENSOR_LINEA 200
 
+// Digital pins de sensores de distancia
+#define SENSOR_DST_IZQ 0
+#define SENSOR_DST_CNT 1
+#define SENSOR_DST_DER 2
+
+
 #define DP1 5
 #define DP2 6 
 #define DPS 7 

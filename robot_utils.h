@@ -1,5 +1,5 @@
-
 #include <xmotion.h>
+#include "parametros.h"
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 void marcha_adelante(int velocidad)
@@ -46,5 +46,61 @@ void robot_detener()
    */
 
   xmotion.StopMotors(10);  
+
+}
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+static bool girando = false;
+void seguir_objeto(int velocidad)
+{
+  /*
+   * Autor:        David Fierro
+   * Descripcion:  Sigue un objeto sin atacarlo
+   * Parametros:   velocidad: Velocidad del robot (0 - 100)
+   * Retorno:      void
+   */
+
+  bool obj_izq = digitalRead(SENSOR_DST_IZQ);
+  bool obj_cnt = digitalRead(SENSOR_DST_CNT);
+  bool obj_der = digitalRead(SENSOR_DST_DER);
+
+  
+
+  if(obj_cnt)
+  {
+    girando = false;
+    robot_detener();
+  }
+  else if (obj_izq && !obj_cnt)
+  {
+    girando = true;
+    xmotion.Left0(velocidad, 1);
+  }
+  else if (obj_der && !obj_cnt)
+  {
+    girando = true;
+    xmotion.Right0(velocidad, 1);
+  }
+  else if (!girando)
+  {
+    if(random(0,2) == 1)
+    {
+      girando = true;
+      xmotion.Right0(velocidad, 1);
+    }
+    else
+    {
+      girando = true;
+      xmotion.Left0(velocidad, 1);   
+    }
+         
+  }
+  
+  
+    
+
+
+   
 
 }
